@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0; url=https://anas-code.com/currency">
-    
-    <script type="text/javascript">
-      window.location.href = "https://anas-code.com/currency";
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جاري التحديث...</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; font-size: 1.2rem; }
+        .loader { margin-top: 20px; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>ننتقل إلى النسخة الجديدة...</h1>
+    <p>يرجى الانتظار قليلاً، يتم توجيهك إلى الموقع الجديد الأسرع والأفضل.</p>
+    <div class="loader">جاري التحويل...</div>
+
+    <script>
+        // الوجهة الجديدة
+        const newUrl = "https://anas-code.com/currency";
+
+        // دالة التحويل
+        function doRedirect() {
+            window.location.href = newUrl;
+        }
+
+        // محاولة إلغاء تسجيل أي Service Worker قديم (سواء الخاص بـ Vite أو غيره)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                let promises = [];
+                for(let registration of registrations) {
+                    // إلغاء تثبيت الـ Worker القديم
+                    promises.push(registration.unregister());
+                }
+                // بعد الانتهاء من الحذف، حول المستخدم
+                Promise.all(promises).then(doRedirect).catch(doRedirect);
+            }).catch(doRedirect); // في حال حدوث خطأ، حول المستخدم فوراً
+        } else {
+            doRedirect();
+        }
     </script>
-  </head>
-  <body>
-    <p>Moved to <a href="https://anas-code.com/currency">anas-code.com/currency</a></p>
-  </body>
+</body>
 </html>
