@@ -15,25 +15,20 @@
     <div class="loader">جاري التحويل...</div>
 
     <script>
-        // الوجهة الجديدة
         const newUrl = "https://anas-code.com/currency";
 
-        // دالة التحويل
         function doRedirect() {
             window.location.href = newUrl;
         }
 
-        // محاولة إلغاء تسجيل أي Service Worker قديم (سواء الخاص بـ Vite أو غيره)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(function(registrations) {
                 let promises = [];
                 for(let registration of registrations) {
-                    // إلغاء تثبيت الـ Worker القديم
                     promises.push(registration.unregister());
                 }
-                // بعد الانتهاء من الحذف، حول المستخدم
                 Promise.all(promises).then(doRedirect).catch(doRedirect);
-            }).catch(doRedirect); // في حال حدوث خطأ، حول المستخدم فوراً
+            }).catch(doRedirect); 
         } else {
             doRedirect();
         }
